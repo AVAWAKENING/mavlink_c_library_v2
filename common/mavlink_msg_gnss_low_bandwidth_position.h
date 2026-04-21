@@ -10,9 +10,9 @@ typedef struct __mavlink_gnss_low_bandwidth_position_t {
  int32_t alt; /*< [mm] Altitude AMSL (meters * 1000)*/
  int32_t altitude_ellipsoid_mm; /*< [mm] Altitude above Ellipsoid*/
  int32_t relative_alt; /*< [mm] Altitude relative to ground (meters * 1000)*/
- uint16_t vn; /*< [cm/s] Velocity in North direction (cm/s, positive North)*/
- uint16_t ve; /*< [cm/s] Velocity in East direction (cm/s, positive East)*/
- uint16_t vd; /*< [cm/s] Velocity in Down direction (cm/s, positive Down)*/
+ int16_t vn; /*< [cm/s] Velocity in North direction (cm/s, positive North)*/
+ int16_t ve; /*< [cm/s] Velocity in East direction (cm/s, positive East)*/
+ int16_t vd; /*< [cm/s] Velocity in Down direction (cm/s, positive Down)*/
  uint16_t heading; /*< [cdeg] Heading (centi-degrees, 0=north, 9000=east, 18000=south, 27000=west)*/
  uint8_t satellites_visible; /*<  Number of satellites visible*/
  uint8_t fix_type; /*<  GPS fix type (1=none, 2=2D, 3=3D, 4=RTCM differential, 5=RTK float, 6=RTK fixed)*/
@@ -24,8 +24,8 @@ typedef struct __mavlink_gnss_low_bandwidth_position_t {
 #define MAVLINK_MSG_ID_20000_LEN 31
 #define MAVLINK_MSG_ID_20000_MIN_LEN 31
 
-#define MAVLINK_MSG_ID_GNSS_LOW_BANDWIDTH_POSITION_CRC 37
-#define MAVLINK_MSG_ID_20000_CRC 37
+#define MAVLINK_MSG_ID_GNSS_LOW_BANDWIDTH_POSITION_CRC 17
+#define MAVLINK_MSG_ID_20000_CRC 17
 
 
 
@@ -39,9 +39,9 @@ typedef struct __mavlink_gnss_low_bandwidth_position_t {
          { "alt", NULL, MAVLINK_TYPE_INT32_T, 0, 8, offsetof(mavlink_gnss_low_bandwidth_position_t, alt) }, \
          { "altitude_ellipsoid_mm", NULL, MAVLINK_TYPE_INT32_T, 0, 12, offsetof(mavlink_gnss_low_bandwidth_position_t, altitude_ellipsoid_mm) }, \
          { "relative_alt", NULL, MAVLINK_TYPE_INT32_T, 0, 16, offsetof(mavlink_gnss_low_bandwidth_position_t, relative_alt) }, \
-         { "vn", NULL, MAVLINK_TYPE_UINT16_T, 0, 20, offsetof(mavlink_gnss_low_bandwidth_position_t, vn) }, \
-         { "ve", NULL, MAVLINK_TYPE_UINT16_T, 0, 22, offsetof(mavlink_gnss_low_bandwidth_position_t, ve) }, \
-         { "vd", NULL, MAVLINK_TYPE_UINT16_T, 0, 24, offsetof(mavlink_gnss_low_bandwidth_position_t, vd) }, \
+         { "vn", NULL, MAVLINK_TYPE_INT16_T, 0, 20, offsetof(mavlink_gnss_low_bandwidth_position_t, vn) }, \
+         { "ve", NULL, MAVLINK_TYPE_INT16_T, 0, 22, offsetof(mavlink_gnss_low_bandwidth_position_t, ve) }, \
+         { "vd", NULL, MAVLINK_TYPE_INT16_T, 0, 24, offsetof(mavlink_gnss_low_bandwidth_position_t, vd) }, \
          { "heading", NULL, MAVLINK_TYPE_UINT16_T, 0, 26, offsetof(mavlink_gnss_low_bandwidth_position_t, heading) }, \
          { "satellites_visible", NULL, MAVLINK_TYPE_UINT8_T, 0, 28, offsetof(mavlink_gnss_low_bandwidth_position_t, satellites_visible) }, \
          { "fix_type", NULL, MAVLINK_TYPE_UINT8_T, 0, 29, offsetof(mavlink_gnss_low_bandwidth_position_t, fix_type) }, \
@@ -57,9 +57,9 @@ typedef struct __mavlink_gnss_low_bandwidth_position_t {
          { "alt", NULL, MAVLINK_TYPE_INT32_T, 0, 8, offsetof(mavlink_gnss_low_bandwidth_position_t, alt) }, \
          { "altitude_ellipsoid_mm", NULL, MAVLINK_TYPE_INT32_T, 0, 12, offsetof(mavlink_gnss_low_bandwidth_position_t, altitude_ellipsoid_mm) }, \
          { "relative_alt", NULL, MAVLINK_TYPE_INT32_T, 0, 16, offsetof(mavlink_gnss_low_bandwidth_position_t, relative_alt) }, \
-         { "vn", NULL, MAVLINK_TYPE_UINT16_T, 0, 20, offsetof(mavlink_gnss_low_bandwidth_position_t, vn) }, \
-         { "ve", NULL, MAVLINK_TYPE_UINT16_T, 0, 22, offsetof(mavlink_gnss_low_bandwidth_position_t, ve) }, \
-         { "vd", NULL, MAVLINK_TYPE_UINT16_T, 0, 24, offsetof(mavlink_gnss_low_bandwidth_position_t, vd) }, \
+         { "vn", NULL, MAVLINK_TYPE_INT16_T, 0, 20, offsetof(mavlink_gnss_low_bandwidth_position_t, vn) }, \
+         { "ve", NULL, MAVLINK_TYPE_INT16_T, 0, 22, offsetof(mavlink_gnss_low_bandwidth_position_t, ve) }, \
+         { "vd", NULL, MAVLINK_TYPE_INT16_T, 0, 24, offsetof(mavlink_gnss_low_bandwidth_position_t, vd) }, \
          { "heading", NULL, MAVLINK_TYPE_UINT16_T, 0, 26, offsetof(mavlink_gnss_low_bandwidth_position_t, heading) }, \
          { "satellites_visible", NULL, MAVLINK_TYPE_UINT8_T, 0, 28, offsetof(mavlink_gnss_low_bandwidth_position_t, satellites_visible) }, \
          { "fix_type", NULL, MAVLINK_TYPE_UINT8_T, 0, 29, offsetof(mavlink_gnss_low_bandwidth_position_t, fix_type) }, \
@@ -89,7 +89,7 @@ typedef struct __mavlink_gnss_low_bandwidth_position_t {
  * @return length of the message in bytes (excluding serial stream start sign)
  */
 static inline uint16_t mavlink_msg_gnss_low_bandwidth_position_pack(uint8_t system_id, uint8_t component_id, mavlink_message_t* msg,
-                               int32_t lat, int32_t lon, int32_t alt, int32_t altitude_ellipsoid_mm, int32_t relative_alt, uint16_t vn, uint16_t ve, uint16_t vd, uint16_t heading, uint8_t satellites_visible, uint8_t fix_type, uint8_t battery_remaining)
+                               int32_t lat, int32_t lon, int32_t alt, int32_t altitude_ellipsoid_mm, int32_t relative_alt, int16_t vn, int16_t ve, int16_t vd, uint16_t heading, uint8_t satellites_visible, uint8_t fix_type, uint8_t battery_remaining)
 {
 #if MAVLINK_NEED_BYTE_SWAP || !MAVLINK_ALIGNED_FIELDS
     char buf[MAVLINK_MSG_ID_GNSS_LOW_BANDWIDTH_POSITION_LEN];
@@ -98,9 +98,9 @@ static inline uint16_t mavlink_msg_gnss_low_bandwidth_position_pack(uint8_t syst
     _mav_put_int32_t(buf, 8, alt);
     _mav_put_int32_t(buf, 12, altitude_ellipsoid_mm);
     _mav_put_int32_t(buf, 16, relative_alt);
-    _mav_put_uint16_t(buf, 20, vn);
-    _mav_put_uint16_t(buf, 22, ve);
-    _mav_put_uint16_t(buf, 24, vd);
+    _mav_put_int16_t(buf, 20, vn);
+    _mav_put_int16_t(buf, 22, ve);
+    _mav_put_int16_t(buf, 24, vd);
     _mav_put_uint16_t(buf, 26, heading);
     _mav_put_uint8_t(buf, 28, satellites_visible);
     _mav_put_uint8_t(buf, 29, fix_type);
@@ -151,7 +151,7 @@ static inline uint16_t mavlink_msg_gnss_low_bandwidth_position_pack(uint8_t syst
  * @return length of the message in bytes (excluding serial stream start sign)
  */
 static inline uint16_t mavlink_msg_gnss_low_bandwidth_position_pack_status(uint8_t system_id, uint8_t component_id, mavlink_status_t *_status, mavlink_message_t* msg,
-                               int32_t lat, int32_t lon, int32_t alt, int32_t altitude_ellipsoid_mm, int32_t relative_alt, uint16_t vn, uint16_t ve, uint16_t vd, uint16_t heading, uint8_t satellites_visible, uint8_t fix_type, uint8_t battery_remaining)
+                               int32_t lat, int32_t lon, int32_t alt, int32_t altitude_ellipsoid_mm, int32_t relative_alt, int16_t vn, int16_t ve, int16_t vd, uint16_t heading, uint8_t satellites_visible, uint8_t fix_type, uint8_t battery_remaining)
 {
 #if MAVLINK_NEED_BYTE_SWAP || !MAVLINK_ALIGNED_FIELDS
     char buf[MAVLINK_MSG_ID_GNSS_LOW_BANDWIDTH_POSITION_LEN];
@@ -160,9 +160,9 @@ static inline uint16_t mavlink_msg_gnss_low_bandwidth_position_pack_status(uint8
     _mav_put_int32_t(buf, 8, alt);
     _mav_put_int32_t(buf, 12, altitude_ellipsoid_mm);
     _mav_put_int32_t(buf, 16, relative_alt);
-    _mav_put_uint16_t(buf, 20, vn);
-    _mav_put_uint16_t(buf, 22, ve);
-    _mav_put_uint16_t(buf, 24, vd);
+    _mav_put_int16_t(buf, 20, vn);
+    _mav_put_int16_t(buf, 22, ve);
+    _mav_put_int16_t(buf, 24, vd);
     _mav_put_uint16_t(buf, 26, heading);
     _mav_put_uint8_t(buf, 28, satellites_visible);
     _mav_put_uint8_t(buf, 29, fix_type);
@@ -217,7 +217,7 @@ static inline uint16_t mavlink_msg_gnss_low_bandwidth_position_pack_status(uint8
  */
 static inline uint16_t mavlink_msg_gnss_low_bandwidth_position_pack_chan(uint8_t system_id, uint8_t component_id, uint8_t chan,
                                mavlink_message_t* msg,
-                                   int32_t lat,int32_t lon,int32_t alt,int32_t altitude_ellipsoid_mm,int32_t relative_alt,uint16_t vn,uint16_t ve,uint16_t vd,uint16_t heading,uint8_t satellites_visible,uint8_t fix_type,uint8_t battery_remaining)
+                                   int32_t lat,int32_t lon,int32_t alt,int32_t altitude_ellipsoid_mm,int32_t relative_alt,int16_t vn,int16_t ve,int16_t vd,uint16_t heading,uint8_t satellites_visible,uint8_t fix_type,uint8_t battery_remaining)
 {
 #if MAVLINK_NEED_BYTE_SWAP || !MAVLINK_ALIGNED_FIELDS
     char buf[MAVLINK_MSG_ID_GNSS_LOW_BANDWIDTH_POSITION_LEN];
@@ -226,9 +226,9 @@ static inline uint16_t mavlink_msg_gnss_low_bandwidth_position_pack_chan(uint8_t
     _mav_put_int32_t(buf, 8, alt);
     _mav_put_int32_t(buf, 12, altitude_ellipsoid_mm);
     _mav_put_int32_t(buf, 16, relative_alt);
-    _mav_put_uint16_t(buf, 20, vn);
-    _mav_put_uint16_t(buf, 22, ve);
-    _mav_put_uint16_t(buf, 24, vd);
+    _mav_put_int16_t(buf, 20, vn);
+    _mav_put_int16_t(buf, 22, ve);
+    _mav_put_int16_t(buf, 24, vd);
     _mav_put_uint16_t(buf, 26, heading);
     _mav_put_uint8_t(buf, 28, satellites_visible);
     _mav_put_uint8_t(buf, 29, fix_type);
@@ -317,7 +317,7 @@ static inline uint16_t mavlink_msg_gnss_low_bandwidth_position_encode_status(uin
  */
 #ifdef MAVLINK_USE_CONVENIENCE_FUNCTIONS
 
-static inline void mavlink_msg_gnss_low_bandwidth_position_send(mavlink_channel_t chan, int32_t lat, int32_t lon, int32_t alt, int32_t altitude_ellipsoid_mm, int32_t relative_alt, uint16_t vn, uint16_t ve, uint16_t vd, uint16_t heading, uint8_t satellites_visible, uint8_t fix_type, uint8_t battery_remaining)
+static inline void mavlink_msg_gnss_low_bandwidth_position_send(mavlink_channel_t chan, int32_t lat, int32_t lon, int32_t alt, int32_t altitude_ellipsoid_mm, int32_t relative_alt, int16_t vn, int16_t ve, int16_t vd, uint16_t heading, uint8_t satellites_visible, uint8_t fix_type, uint8_t battery_remaining)
 {
 #if MAVLINK_NEED_BYTE_SWAP || !MAVLINK_ALIGNED_FIELDS
     char buf[MAVLINK_MSG_ID_GNSS_LOW_BANDWIDTH_POSITION_LEN];
@@ -326,9 +326,9 @@ static inline void mavlink_msg_gnss_low_bandwidth_position_send(mavlink_channel_
     _mav_put_int32_t(buf, 8, alt);
     _mav_put_int32_t(buf, 12, altitude_ellipsoid_mm);
     _mav_put_int32_t(buf, 16, relative_alt);
-    _mav_put_uint16_t(buf, 20, vn);
-    _mav_put_uint16_t(buf, 22, ve);
-    _mav_put_uint16_t(buf, 24, vd);
+    _mav_put_int16_t(buf, 20, vn);
+    _mav_put_int16_t(buf, 22, ve);
+    _mav_put_int16_t(buf, 24, vd);
     _mav_put_uint16_t(buf, 26, heading);
     _mav_put_uint8_t(buf, 28, satellites_visible);
     _mav_put_uint8_t(buf, 29, fix_type);
@@ -376,7 +376,7 @@ static inline void mavlink_msg_gnss_low_bandwidth_position_send_struct(mavlink_c
   is usually the receive buffer for the channel, and allows a reply to an
   incoming message with minimum stack space usage.
  */
-static inline void mavlink_msg_gnss_low_bandwidth_position_send_buf(mavlink_message_t *msgbuf, mavlink_channel_t chan,  int32_t lat, int32_t lon, int32_t alt, int32_t altitude_ellipsoid_mm, int32_t relative_alt, uint16_t vn, uint16_t ve, uint16_t vd, uint16_t heading, uint8_t satellites_visible, uint8_t fix_type, uint8_t battery_remaining)
+static inline void mavlink_msg_gnss_low_bandwidth_position_send_buf(mavlink_message_t *msgbuf, mavlink_channel_t chan,  int32_t lat, int32_t lon, int32_t alt, int32_t altitude_ellipsoid_mm, int32_t relative_alt, int16_t vn, int16_t ve, int16_t vd, uint16_t heading, uint8_t satellites_visible, uint8_t fix_type, uint8_t battery_remaining)
 {
 #if MAVLINK_NEED_BYTE_SWAP || !MAVLINK_ALIGNED_FIELDS
     char *buf = (char *)msgbuf;
@@ -385,9 +385,9 @@ static inline void mavlink_msg_gnss_low_bandwidth_position_send_buf(mavlink_mess
     _mav_put_int32_t(buf, 8, alt);
     _mav_put_int32_t(buf, 12, altitude_ellipsoid_mm);
     _mav_put_int32_t(buf, 16, relative_alt);
-    _mav_put_uint16_t(buf, 20, vn);
-    _mav_put_uint16_t(buf, 22, ve);
-    _mav_put_uint16_t(buf, 24, vd);
+    _mav_put_int16_t(buf, 20, vn);
+    _mav_put_int16_t(buf, 22, ve);
+    _mav_put_int16_t(buf, 24, vd);
     _mav_put_uint16_t(buf, 26, heading);
     _mav_put_uint8_t(buf, 28, satellites_visible);
     _mav_put_uint8_t(buf, 29, fix_type);
@@ -474,9 +474,9 @@ static inline int32_t mavlink_msg_gnss_low_bandwidth_position_get_relative_alt(c
  *
  * @return [cm/s] Velocity in North direction (cm/s, positive North)
  */
-static inline uint16_t mavlink_msg_gnss_low_bandwidth_position_get_vn(const mavlink_message_t* msg)
+static inline int16_t mavlink_msg_gnss_low_bandwidth_position_get_vn(const mavlink_message_t* msg)
 {
-    return _MAV_RETURN_uint16_t(msg,  20);
+    return _MAV_RETURN_int16_t(msg,  20);
 }
 
 /**
@@ -484,9 +484,9 @@ static inline uint16_t mavlink_msg_gnss_low_bandwidth_position_get_vn(const mavl
  *
  * @return [cm/s] Velocity in East direction (cm/s, positive East)
  */
-static inline uint16_t mavlink_msg_gnss_low_bandwidth_position_get_ve(const mavlink_message_t* msg)
+static inline int16_t mavlink_msg_gnss_low_bandwidth_position_get_ve(const mavlink_message_t* msg)
 {
-    return _MAV_RETURN_uint16_t(msg,  22);
+    return _MAV_RETURN_int16_t(msg,  22);
 }
 
 /**
@@ -494,9 +494,9 @@ static inline uint16_t mavlink_msg_gnss_low_bandwidth_position_get_ve(const mavl
  *
  * @return [cm/s] Velocity in Down direction (cm/s, positive Down)
  */
-static inline uint16_t mavlink_msg_gnss_low_bandwidth_position_get_vd(const mavlink_message_t* msg)
+static inline int16_t mavlink_msg_gnss_low_bandwidth_position_get_vd(const mavlink_message_t* msg)
 {
-    return _MAV_RETURN_uint16_t(msg,  24);
+    return _MAV_RETURN_int16_t(msg,  24);
 }
 
 /**
